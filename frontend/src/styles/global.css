@@ -1,0 +1,246 @@
+/* static/style.css */
+:root {
+    --primary-color: #3f51b5; /* Bleu Indigo */
+    --primary-light: #5c72e0;
+    --accent-color: #f50057; /* Magenta */
+    --background-light: #f4f6f8;
+    --card-background: #ffffff;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --error-color: #f44336;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-light);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Général --- */
+.container {
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* --- Header et Navigation --- */
+.app-header {
+    background-color: var(--card-background);
+    box-shadow: var(--shadow-light);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo-container { display: flex; align-items: center; }
+.logo-icon { font-size: 24px; margin-right: 10px; color: var(--primary-color); }
+.app-title { font-size: 24px; font-weight: 700; margin: 0; }
+
+.step-indicator { display: flex; gap: 10px; }
+.step-item {
+    padding: 8px 15px;
+    border-radius: 20px;
+    background-color: #eee;
+    color: #888;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+.step-item.active { background-color: var(--primary-color); color: var(--card-background); }
+.step-item.done { background-color: var(--success-color); color: var(--card-background); }
+
+/* --- Cartes (Cards) --- */
+.card {
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    margin-bottom: 20px;
+}
+.card-upload { max-width: 600px; margin: 40px auto; }
+.grid-2, .grid-2-small {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.grid-3-2 {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr; /* CV plus large que le Chat */
+    gap: 30px;
+}
+
+/* --- Formulaires et Boutons --- */
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+input[type="text"], input[type="url"], input[type="file"], textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+input:focus, textarea:focus { border-color: var(--primary-color); outline: none; }
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.1s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: var(--primary-light); }
+.btn-lg { padding: 15px 30px; font-size: 16px; margin-top: 15px; }
+
+/* --- Score et Métriques (Step 2) --- */
+.score-display { display: flex; align-items: center; gap: 20px; }
+.score-metric { text-align: center; }
+.score-circle {
+    width: 100px; height: 100px; line-height: 100px;
+    border-radius: 50%;
+    font-size: 24px; font-weight: 700;
+    color: white; margin-bottom: 5px;
+}
+.score-low { background-color: var(--error-color); }
+.score-medium { background-color: var(--warning-color); }
+.score-high { background-color: var(--success-color); }
+.score-details { flex-grow: 1; }
+.verdict { font-style: italic; color: #555; }
+
+/* --- Validation Éthique (Step 3) --- */
+.card-validation { border-left: 5px solid var(--warning-color); }
+.badge {
+    display: inline-block;
+    background-color: #e0f7fa;
+    color: #00838f;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 5px;
+    font-size: 13px;
+}
+.action-box { padding: 30px; margin-top: 20px; border-radius: 8px; }
+
+/* --- Step 5 Final --- */
+.cv-textarea { 
+    font-family: monospace; 
+    font-size: 14px; 
+    white-space: pre; 
+    resize: none;
+    background-color: #fafafa;
+}
+
+.download-section {
+    display: flex; gap: 15px; margin-top: 15px;
+}
+.btn-download-docx { background-color: #2a5699; color: white; }
+.btn-download-pdf { background-color: #b30b00; color: white; }
+
+/* Chatbot */
+.chat-card {
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+}
+.chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.chat-message {
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    max-width: 80%;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+.chat-user {
+    background-color: var(--primary-light);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 2px;
+}
+.chat-assistant {
+    background-color: #e8eaf6;
+    color: #333;
+    margin-right: auto;
+    border-bottom-left-radius: 2px;
+}
+
+.chat-input-form {
+    display: flex;
+    gap: 10px;
+}
+.chat-input-form input {
+    flex-grow: 1;
+}
+.btn-send {
+    background-color: var(--success-color);
+    color: white;
+}
+/* Dans votre style.css */
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 3px;
+}
+
+.message-time {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.message-content {
+    line-height: 1.5;
+}
+
+.alert-success, .alert-danger {
+    margin: 0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.chat-history {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Scrollbar personnalisée */
+.chat-history::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-history::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-history::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.chat-history::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

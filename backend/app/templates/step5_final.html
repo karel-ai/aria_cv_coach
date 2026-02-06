@@ -1,0 +1,501 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>🚀 Résultat Final de l'Optimisation</h2>
+
+<div class="grid-3-2">
+    <div class="cv-column">
+        <!-- Carte Score -->
+        <div class="card score-card score-{{ 'high' if data.evaluation_optimized.score >= 75 else 'medium' if data.evaluation_optimized.score >= 60 else 'low' }}">
+            <div class="score-result">
+                <i class="fas fa-rocket"></i>
+                <h3>Score Final</h3>
+                <p>{{ data.evaluation_optimized.score | default(0) }}/100</p>
+            </div>
+            <div class="score-summary">
+                <ul>
+                    <li><i class="fas fa-bullseye"></i> <strong>Verdict :</strong> {{ data.evaluation_optimized.verdict_court | default('Non disponible') }}</li>
+                    <li><i class="fas fa-plus-circle"></i> <strong>Force ajoutée :</strong> {{ data.evaluation_optimized.points_forts[0] if data.evaluation_optimized.points_forts else 'N/A' }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Carte Modifications -->
+        <div class="card modifications-card">
+            <details open>
+                <summary><i class="fas fa-magic"></i> Améliorations Appliquées Automatiquement</summary>
+                <ul class="modifications-list">
+                    {% if data.comparaison_versions and data.comparaison_versions.modifications_apportes %}
+                        {% for modif in data.comparaison_versions.modifications_apportes %}
+                            <li>
+                                <i class="fas fa-check-circle text-success"></i> 
+                                <span>{{ modif }}</span>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="text-muted"><i class="fas fa-info-circle"></i> Aucune modification détectée</li>
+                    {% endif %}
+                </ul>
+            </details>
+        </div>
+
+        <!-- Carte CV Optimisé -->
+        <div class="card cv-area-card">
+            <div class="cv-header">
+                <h3><i class="fas fa-file-alt"></i> Votre CV Optimisé</h3>
+                <div class="cv-actions">
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleCVFormat()">
+                        <i class="fas fa-eye"></i> Format: <span id="format-label">Structuré</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Version Structurée (par défaut) -->
+            <div id="cv-structured" class="cv-structured-view">
+                {% if cv_content %}
+                    <div class="cv-structure">
+                        <!-- En-tête -->
+                        {% if cv_content.entete %}
+                        <div class="cv-section">
+                            <h4><i class="fas fa-user"></i> Informations Personnelles</h4>
+                            <div class="cv-field">
+                                <strong>{{ cv_content.entete.prenom_nom | default('Nom Prénom') | upper }}</strong>
+                            </div>
+                            <div class="cv-field">
+                                <small><i class="fas fa-address-card"></i> {{ cv_content.entete.contact_info | default('Contact non disponible') }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Résumé -->
+                        {% if cv_content.resume %}
+                        <div class="cv-section">
+                            <h4><i class="fas fa-user-tie"></i> Profil Professionnel</h4>
+                            <p>{{ cv_content.resume }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Expériences -->
+                        {% if cv_content.experiences %}
+                        <div class="cv-section">
+                            <h4><i class="fas fa-briefcase"></i> Expériences Professionnelles</h4>
+                            {% for exp in cv_content.experiences %}
+                            <div class="experience-item">
+                                <div class="exp-header">
+                                    <strong>{{ exp.poste | default('Poste') }}</strong>
+                                    <span class="exp-company">{{ exp.entreprise | default('Entreprise') }}</span>
+                                    <span class="exp-dates">{{ exp.dates | default('Dates') }}</span>
+                                </div>
+                                {% if exp.taches %}
+                                <ul class="exp-tasks">
+                                    {% for tache in exp.taches %}
+                                    <li>{{ tache }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Formation -->
+                        {% if cv_content.formation %}
+                        <div class="cv-section">
+                            <h4><i class="fas fa-graduation-cap"></i> Formation</h4>
+                            {% for form in cv_content.formation %}
+                            <div class="formation-item">
+                                <strong>{{ form.diplome | default('Diplôme') }}</strong>
+                                <span class="form-school">{{ form.ecole | default('École') }}</span>
+                                <span class="form-dates">{{ form.dates | default('Dates') }}</span>
+                                {% if form.details %}
+                                <div class="form-details"><small>{{ form.details }}</small></div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Compétences -->
+                        <div class="cv-section">
+                            <h4><i class="fas fa-cogs"></i> Compétences</h4>
+                            <div class="skills-grid">
+                                {% if cv_content.competences_techniques %}
+                                <div class="skill-category">
+                                    <h5><i class="fas fa-laptop-code"></i> Techniques</h5>
+                                    <div class="skill-list">
+                                        {% if cv_content.competences_techniques is string %}
+                                            {{ cv_content.competences_techniques }}
+                                        {% else %}
+                                            {{ cv_content.competences_techniques | join(', ') }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if cv_content.soft_skills %}
+                                <div class="skill-category">
+                                    <h5><i class="fas fa-users"></i> Soft Skills</h5>
+                                    <div class="skill-list">
+                                        {% if cv_content.soft_skills is string %}
+                                            {{ cv_content.soft_skills }}
+                                        {% else %}
+                                            {{ cv_content.soft_skills | join(', ') }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if cv_content.langues %}
+                                <div class="skill-category">
+                                    <h5><i class="fas fa-language"></i> Langues</h5>
+                                    <div class="skill-list">{{ cv_content.langues }}</div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> CV non disponible
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Version Texte Brut (cachée par défaut) -->
+            <div id="cv-raw" class="cv-raw-view" style="display: none;">
+                <textarea class="cv-textarea" rows="25" readonly>{{ cv_content_raw if cv_content_raw else cv_content }}</textarea>
+            </div>
+            
+            <!-- Boutons de téléchargement -->
+            <div class="download-section">
+                {% if data.docx_path %}
+                <a href="{{ url_for('download_file', type='docx') }}" class="btn btn-download-docx">
+                    <i class="fas fa-file-word"></i> Télécharger DOCX
+                </a>
+                {% endif %}
+                
+                {% if data.pdf_path %}
+                <a href="{{ url_for('download_file', type='pdf') }}" class="btn btn-download-pdf">
+                    <i class="fas fa-file-pdf"></i> Télécharger PDF
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Colonne Chat -->
+    <div class="chat-column">
+        <div class="card chat-card">
+            <div class="chat-header">
+                <h3><i class="fas fa-robot"></i> Agent de Correction</h3>
+                <span class="badge bg-info">En ligne</span>
+            </div>
+            
+            <div class="chat-history" id="chatHistory">
+                {% if chat_history %}
+                    {% for msg in chat_history %}
+                    <div class="chat-message chat-{{ msg.role }}">
+                        <div class="message-header">
+                            <strong>
+                                {% if msg.role == 'user' %}
+                                    <i class="fas fa-user"></i> Vous
+                                {% else %}
+                                    <i class="fas fa-robot"></i> Assistant
+                                {% endif %}
+                            </strong>
+                            <small class="message-time">#{{ loop.index }}</small>
+                        </div>
+                        <div class="message-content">
+                            {% if msg.role == 'assistant' %}
+                                {% if '✅' in msg.content %}
+                                    <div class="alert alert-success">
+                                        {{ msg.content | replace('\n', '<br>') | safe }}
+                                    </div>
+                                {% elif '❌' in msg.content or 'Erreur' in msg.content %}
+                                    <div class="alert alert-danger">
+                                        {{ msg.content | replace('\n', '<br>') | safe }}
+                                    </div>
+                                {% else %}
+                                    {{ msg.content | replace('\n', '<br>') | safe }}
+                                {% endif %}
+                            {% else %}
+                                <div class="user-message">
+                                    {{ msg.content | replace('\n', '<br>') | safe }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-chat">
+                        <i class="fas fa-comments fa-3x mb-3"></i>
+                        <p>Commencez la conversation avec l'agent de correction.</p>
+                        <small class="text-muted">Exemple : "Ajoute une section projets"</small>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <form method="POST" class="chat-input-form">
+                <div class="input-group">
+                    <input type="text" name="chat_input" 
+                           placeholder="Ex: 'Ajoute une certification en Python', 'Réorganise les expériences par pertinence'..." 
+                           required
+                           class="form-control">
+                    <button type="submit" class="btn btn-send">
+                        <i class="fas fa-paper-plane"></i> Envoyer
+                    </button>
+                </div>
+                <small class="form-text text-muted">
+                    <i class="fas fa-lightbulb"></i> L'agent applique les modifications en temps réel
+                </small>
+            </form>
+        </div>
+        
+        <!-- Suggestions rapides -->
+        <div class="card suggestions-card">
+            <h4><i class="fas fa-bolt"></i> Suggestions Rapides</h4>
+            <div class="suggestions-grid">
+                <button type="button" class="suggestion-btn" onclick="setSuggestion('Réorganise les expériences par pertinence')">
+                    <i class="fas fa-sort-amount-down"></i> Prioriser expériences
+                </button>
+                <button type="button" class="suggestion-btn" onclick="setSuggestion('Ajoute des chiffres quantifiables')">
+                    <i class="fas fa-chart-bar"></i> Quantifier résultats
+                </button>
+                <button type="button" class="suggestion-btn" onclick="setSuggestion('Simplifie le résumé à 3 lignes')">
+                    <i class="fas fa-file-contract"></i> Résumé concis
+                </button>
+                <button type="button" class="suggestion-btn" onclick="setSuggestion('Ajoute des mots-clés techniques')">
+                    <i class="fas fa-key"></i> Mots-clés ATS
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Styles spécifiques pour step5 */
+    .cv-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .cv-structured-view {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        background-color: #fafafa;
+        max-height: 600px;
+        overflow-y: auto;
+        margin-bottom: 15px;
+    }
+    
+    .cv-section {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed #ddd;
+    }
+    
+    .cv-section:last-child {
+        border-bottom: none;
+    }
+    
+    .cv-section h4 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+    
+    .experience-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: white;
+        border-radius: 6px;
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .exp-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+    
+    .exp-company {
+        color: #666;
+        font-weight: 500;
+    }
+    
+    .exp-dates {
+        color: #888;
+        font-size: 0.9rem;
+    }
+    
+    .exp-tasks {
+        padding-left: 20px;
+        margin: 0;
+    }
+    
+    .exp-tasks li {
+        margin-bottom: 5px;
+        color: #555;
+    }
+    
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .skill-category {
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #eee;
+    }
+    
+    .skill-category h5 {
+        margin-top: 0;
+        color: #555;
+        font-size: 0.95rem;
+    }
+    
+    .skill-list {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    /* Chat amélioré */
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+        padding-bottom: 3px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .message-content {
+        line-height: 1.5;
+    }
+    
+    .user-message {
+        background-color: #e3f2fd;
+        padding: 10px;
+        border-radius: 6px;
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .empty-chat {
+        text-align: center;
+        padding: 40px 20px;
+        color: #888;
+    }
+    
+    .suggestions-card {
+        margin-top: 20px;
+    }
+    
+    .suggestions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .suggestion-btn {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 0.85rem;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .suggestion-btn:hover {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+    
+    .modifications-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .modifications-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .modifications-list li:last-child {
+        border-bottom: none;
+    }
+</style>
+
+<script>
+    // Basculer entre format structuré et brut
+    function toggleCVFormat() {
+        const structuredView = document.getElementById('cv-structured');
+        const rawView = document.getElementById('cv-raw');
+        const formatLabel = document.getElementById('format-label');
+        
+        if (structuredView.style.display === 'none') {
+            structuredView.style.display = 'block';
+            rawView.style.display = 'none';
+            formatLabel.textContent = 'Structuré';
+        } else {
+            structuredView.style.display = 'none';
+            rawView.style.display = 'block';
+            formatLabel.textContent = 'Texte brut';
+        }
+    }
+    
+    // Remplir le champ de chat avec une suggestion
+    function setSuggestion(text) {
+        const input = document.querySelector('input[name="chat_input"]');
+        if (input) {
+            input.value = text;
+            input.focus();
+        }
+    }
+    
+    // Scroll automatique vers le bas du chat
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatHistory = document.getElementById('chatHistory');
+        if (chatHistory) {
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+    });
+    
+    // Animation pour les nouveaux messages
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                const chatHistory = document.getElementById('chatHistory');
+                if (chatHistory) {
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
+                }
+            }
+        });
+    });
+    
+    // Observer le contenu du chat
+    const chatContainer = document.querySelector('.chat-history');
+    if (chatContainer) {
+        observer.observe(chatContainer, { childList: true, subtree: false });
+    }
+</script>
+{% endblock %}

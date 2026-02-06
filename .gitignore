@@ -1,0 +1,14 @@
+# Sécurité : ne jamais envoyer les clés API
+.env
+
+# Fichiers python inutiles
+__pycache__/
+*.pyc
+venv/
+
+# Dossiers temporaires
+temp_data/
+backend/app/static/cv_optimise_*.txt
+
+# Système
+.DS_Store

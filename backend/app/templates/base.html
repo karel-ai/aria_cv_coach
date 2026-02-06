@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aria CV Coach | Étape {{ step }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .nav-reset-btn {
+            padding: 8px 16px;
+            background-color: var(--warning-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
+        }
+        .nav-reset-btn:hover {
+            background-color: #e68900;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 152, 0, 0.2);
+        }
+        .app-footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+            <i class="fas fa-robot logo-icon"></i>
+            <h1 class="app-title">Aria CV Coach</h1>
+        </div>
+        <nav class="step-indicator">
+            <span class="step-item {% if step == 1 %}active{% elif step > 1 %}done{% endif %}">1. Upload</span>
+            <span class="step-item {% if step == 2 %}active{% elif step > 2 %}done{% endif %}">2. Diagnostic</span>
+            <span class="step-item {% if step >= 3 and step < 5 %}active{% elif step >= 5 %}done{% endif %}">3. Optimisation</span>
+            <span class="step-item {% if step == 5 %}active{% endif %}">4. Final</span>
+            <a href="{{ url_for('reset_session') }}" class="nav-reset-btn">
+                <i class="fas fa-redo"></i> Recommencer
+            </a>
+        </nav>
+    </header>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer class="app-footer">
+        <p>© 2024 Aria CV Coach. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

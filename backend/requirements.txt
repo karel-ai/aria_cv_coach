@@ -1,0 +1,24 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+python-dotenv
+mistralai
+requests
+beautifulsoup4
+# Gestion Fichiers (PDF/Word)
+PyPDF2
+pypdf
+docx2txt
+python-docx
+docxtpl
+reportlab
+# IA & RAG
+numpy
+scikit-learn
+sentence-transformers
+keybert
+# Utilitaire
+pandas
+
+itsdangerous

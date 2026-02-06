@@ -1,0 +1,39 @@
+services:
+  # Service API (Python 3.10.19)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aria_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/app/app  # Permet de modifier le code sans redémarrer le conteneur
+    env_file:
+      - .env  # Chargez votre clé MISTRAL_API_KEY ici
+    networks:
+      - aria-network
+
+  # Service Interface (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: aria_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src # Hot-reload pour le CSS/React
+      - ./frontend/app:/app/app
+      - /app/node_modules
+    environment:
+      # L'URL du backend vue par le navigateur
+      - NEXT_PUBLIC_API_URL=http://localhost:8000 
+    depends_on:
+      - backend
+    networks:
+      - aria-network
+
+networks:
+  aria-network:
+    driver: bridge

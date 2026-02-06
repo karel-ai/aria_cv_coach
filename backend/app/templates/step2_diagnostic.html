@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>📊 Diagnostic Initial de Correspondance</h2>
+    
+    <div class="grid-2">
+        <div class="card">
+            <h3>🎯 Poste identifié: {{ data.analyse_offre.titre_poste | default('Inconnu') }}</h3>
+            <div class="grid-2-small">
+                <div>
+                    <h4>🔑 Compétences Clés</h4>
+                    <ul>
+                        {% for c in data.analyse_offre.competences_cles | default([]) %}
+                            <li>{{ c }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <h4>📋 Missions</h4>
+                    <ul>
+                        {% for m in data.analyse_offre.missions_principales | default([]) %}
+                            <li>{{ m }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <h4>🏷️ Mots-clés ATS</h4>
+            <p class="caption">{{ data.analyse_offre.mots_cles_ats | default([]) | join(', ') }}</p>
+        </div>
+        
+        <div class="card">
+            <h3>📊 Évaluation du CV Original</h3>
+            <div class="score-display">
+                <div class="score-metric">
+                    <div class="score-circle score-{{ 'high' if score >= 75 else 'medium' if score >= 60 else 'low' }}">
+                        {{ score }}/100
+                    </div>
+                    <span class="score-label">Score de Match</span>
+                </div>
+                <div class="score-details">
+                    <p class="verdict"><strong>Verdict:</strong> <em>{{ data.evaluation_original.verdict_court | default('Non évalué') }}</em></p>
+                    <div class="grid-2-small">
+                        <div>
+                            <h4>✅ Forces</h4>
+                            <ul>
+                                {% for p in data.evaluation_original.points_forts | default([]) %}
+                                    <li class="success">{{ p }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>⚠️ Faiblesses</h4>
+                            <ul>
+                                {% for p in data.evaluation_original.points_faibles | default([]) %}
+                                    <li class="warning">{{ p }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# SECTION QUAND SCORE < 60 #}
+    {% if score < 60 %}
+    <div class="card card-warning action-box">
+        <h3>⚠️ Attention : Profil Éloigné</h3>
+        <p>Votre score est **{{ score }}/100**. Souhaitez-vous quand même optimiser ce CV ou explorer d'autres pistes ?</p>
+        <form method="POST">
+            <div class="form-group-radio">
+                <label>
+                    <input type="radio" name="decision_radio" value="Optimiser quand même (Continuer)" checked>
+                    Optimiser quand même (Continuer)
+                </label>
+                <label>
+                    <input type="radio" name="decision_radio" value="Chercher des pistes alternatives (Stop)">
+                    Chercher des pistes alternatives (Stop)
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Valider la décision <i class="fas fa-check"></i></button>
+        </form>
+    </div>
+    
+    {# SECTION QUAND SCORE >= 60 (remplace complètement le formulaire ci-dessus) #}
+    {% else %}
+    <div class="card card-success action-box">
+        <h3>✅ Profil Cohérent - Prêt pour l'Optimisation</h3>
+        <p>Votre score de **{{ score }}/100** indique une bonne correspondance avec l'offre.</p>
+        
+        {% if session.get('data', {}).get('optimized_cv_json_path') %}
+            {# Si le CV est déjà optimisé, proposer de le revoir #}
+            <p>Votre CV a déjà été optimisé. Souhaitez-vous :</p>
+            <div style="margin-top: 20px;">
+                <a href="{{ url_for('step3_optimize') }}" class="btn btn-primary">
+                    Voir le CV optimisé → 
+                </a>
+                <a href="{{ url_for('step5_final') }}" class="btn btn-secondary">
+                    Accéder aux résultats finaux
+                </a>
+            </div>
+        {% else %}
+            {# Si pas encore optimisé, proposer de lancer l'optimisation #}
+            <p>Cliquez pour lancer l'optimisation automatique de votre CV :</p>
+            <div style="margin-top: 20px;">
+                <form method="POST" action="{{ url_for('step2_diagnostic') }}" style="display: inline;">
+                    <input type="hidden" name="decision_radio" value="auto_optimiser">
+                    <button type="submit" class="btn btn-primary">
+                        Lancer l'Optimisation Automatique → 
+                    </button>
+                </form>
+                <a href="{{ url_for('step1_upload') }}" class="btn btn-secondary">
+                    Modifier l'offre/CV
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+{% endblock %}

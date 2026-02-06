@@ -1,0 +1,656 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1 class="hero-title">
+                <span class="gradient-text">Optimisez votre CV</span><br>
+                avec l'Intelligence Artificielle
+            </h1>
+            <p class="hero-subtitle">
+                Notre assistant IA analyse votre CV et les offres d'emploi pour vous fournir des recommandations personnalisées, augmentant ainsi vos chances d'entretien.
+            </p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">+40%</span>
+                    <span class="stat-label">Taux de réponse</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">×3</span>
+                    <span class="stat-label">Plus d'entretiens</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5 min</span>
+                    <span class="stat-label">Analyse rapide</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <!-- Illustration d'assistant IA -->
+            <div class="ai-assistant">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-message">
+                    <p>"Bonjour ! Je suis Aria, votre assistant carrière. Déposez votre CV et une offre pour commencer l'analyse."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="upload-container">
+    <div class="upload-card">
+        <div class="upload-header">
+            <h2><i class="fas fa-cloud-upload-alt"></i> Commencez votre analyse</h2>
+            <p class="upload-subtitle">Téléversez votre CV et l'URL de l'offre pour une analyse complète</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+            {% if error %}
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+            
+            <div class="form-group file-upload-area">
+                <label for="cv_file" class="upload-label">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>CV (PDF ou DOCX)</span>
+                    <p class="upload-hint">Glissez-déposez ou cliquez pour sélectionner</p>
+                </label>
+                <input type="file" id="cv_file" name="cv_file" accept=".pdf,.docx" required class="file-input">
+                <div class="file-preview" id="filePreview"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="url_offre" class="input-label">
+                    <i class="fas fa-link"></i> URL de l'offre d'emploi
+                </label>
+                <div class="input-with-icon">
+                    <input type="url" id="url_offre" name="url_offre" 
+                           placeholder="https://linkedin.com/jobs/view/..." 
+                           required class="url-input">
+                    <i class="fas fa-globe input-icon"></i>
+                </div>
+                <p class="input-hint">Collez l'URL complète de l'offre (LinkedIn, Indeed, etc.)</p>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary btn-analyze">
+                    <i class="fas fa-magic"></i>
+                    <span>Lancer l'analyse IA</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <div class="security-info">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Vos données sont sécurisées et analysées localement</span>
+                </div>
+            </div>
+        </form>
+        
+        <div class="process-steps">
+            <h3>Comment fonctionne l'analyse :</h3>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Téléversement</h4>
+                    <p>Importez votre CV et l'offre cible</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Analyse IA</h4>
+                    <p>Comparaison détaillée des compétences</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Recommandations</h4>
+                    <p>Suggestions personnalisées d'amélioration</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Optimisation</h4>
+                    <p>CV optimisé pour l'offre spécifique</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ajoutez ce CSS à votre style.css -->
+<style>
+    /* HERO SECTION */
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+        color: white;
+        padding: 60px 20px;
+        border-radius: 20px;
+        margin: 30px 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: float 20s linear infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0) translateX(0); }
+        100% { transform: translateY(-50px) translateX(-50px); }
+    }
+    
+    .hero-content {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(90deg, #FFD700, #FF6B6B);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        opacity: 0.9;
+        margin-bottom: 30px;
+        max-width: 600px;
+    }
+    
+    .hero-stats {
+        display: flex;
+        gap: 40px;
+        margin-top: 40px;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-number {
+        display: block;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #FFD700;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    /* AI ASSISTANT VISUAL */
+    .ai-assistant {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .ai-avatar {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 50px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .ai-message {
+        background: white;
+        color: #333;
+        padding: 20px;
+        border-radius: 15px;
+        position: relative;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .ai-message::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid white;
+    }
+    
+    /* UPLOAD SECTION */
+    .upload-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .upload-card {
+        background: var(--card-background);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        margin-top: -40px;
+        position: relative;
+        z-index: 3;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .upload-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .upload-header h2 {
+        font-size: 2.2rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        border: none;
+    }
+    
+    .upload-subtitle {
+        color: #666;
+        font-size: 1.1rem;
+    }
+    
+    /* FILE UPLOAD STYLING */
+    .file-upload-area {
+        border: 2px dashed #ddd;
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        transition: all 0.3s;
+        margin-bottom: 30px;
+        cursor: pointer;
+    }
+    
+    .file-upload-area:hover {
+        border-color: var(--primary-color);
+        background: #f8f9ff;
+    }
+    
+    .file-upload-area.dragover {
+        border-color: var(--success-color);
+        background: #f0fff4;
+    }
+    
+    .upload-label {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        color: #555;
+    }
+    
+    .upload-label i {
+        font-size: 3rem;
+        color: var(--primary-color);
+    }
+    
+    .upload-label span {
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .upload-hint {
+        color: #888;
+        margin-top: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .file-input {
+        display: none;
+    }
+    
+    .file-preview {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        display: none;
+    }
+    
+    .file-preview.active {
+        display: block;
+    }
+    
+    /* URL INPUT STYLING */
+    .input-with-icon {
+        position: relative;
+    }
+    
+    .url-input {
+        padding-left: 45px !important;
+        font-size: 1rem;
+        height: 55px;
+    }
+    
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+        font-size: 1.2rem;
+    }
+    
+    .input-hint {
+        color: #888;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+    
+    /* FORM ACTIONS */
+    .form-actions {
+        text-align: center;
+        margin: 40px 0 20px;
+    }
+    
+    .btn-analyze {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        padding: 18px 40px;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        box-shadow: 0 10px 30px rgba(63, 81, 181, 0.3);
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        border: none;
+    }
+    
+    .btn-analyze:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(63, 81, 181, 0.4);
+    }
+    
+    .security-info {
+        margin-top: 20px;
+        color: #666;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .security-info i {
+        color: var(--success-color);
+    }
+    
+    /* PROCESS STEPS */
+    .process-steps {
+        margin-top: 50px;
+        padding-top: 40px;
+        border-top: 1px solid #eee;
+    }
+    
+    .process-steps h3 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #333;
+    }
+    
+    .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+    
+    .step {
+        text-align: center;
+        padding: 25px 15px;
+        background: #f8f9ff;
+        border-radius: 15px;
+        transition: all 0.3s;
+    }
+    
+    .step:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-weight: 700;
+    }
+    
+    .step h4 {
+        margin: 10px 0 5px;
+        color: #333;
+    }
+    
+    .step p {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+        .hero-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .hero-stats {
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .steps-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .upload-card {
+            padding: 25px;
+        }
+        
+        .steps-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    /* FLASH MESSAGES */
+    .flashes {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    
+    .flashes li {
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .flashes li.error {
+        background: #ffebee;
+        color: #c62828;
+        border-left: 4px solid #f44336;
+    }
+    
+    .flashes li.success {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border-left: 4px solid #4caf50;
+    }
+</style>
+
+<script>
+    // Drag and drop functionality
+    const uploadArea = document.querySelector('.file-upload-area');
+    const fileInput = document.getElementById('cv_file');
+    const filePreview = document.getElementById('filePreview');
+    
+    // Click to upload
+    uploadArea.addEventListener('click', () => fileInput.click());
+    
+    // Drag and drop events
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+    
+    function highlight() {
+        uploadArea.classList.add('dragover');
+    }
+    
+    function unhighlight() {
+        uploadArea.classList.remove('dragover');
+    }
+    
+    // Handle dropped files
+    uploadArea.addEventListener('drop', handleDrop, false);
+    
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        handleFiles(files);
+    }
+    
+    // Handle file selection
+    fileInput.addEventListener('change', function() {
+        handleFiles(this.files);
+    });
+    
+    function handleFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            const fileSize = (file.size / (1024*1024)).toFixed(2);
+            
+            filePreview.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <div>
+                        <strong>${file.name}</strong>
+                        <div style="color: #666; font-size: 0.9rem;">${fileSize} MB</div>
+                    </div>
+                    <div style="margin-left: auto; color: var(--success-color);">
+                        <i class="fas fa-check-circle"></i> Prêt
+                    </div>
+                </div>
+            `;
+            filePreview.classList.add('active');
+            
+            // Update label
+            document.querySelector('.upload-label span').textContent = 'Fichier sélectionné';
+            document.querySelector('.upload-label i').className = 'fas fa-check-circle';
+            document.querySelector('.upload-label i').style.color = 'var(--success-color)';
+        }
+    }
+    
+    // Animate steps on scroll
+    function animateSteps() {
+        const steps = document.querySelectorAll('.step');
+        steps.forEach((step, index) => {
+            setTimeout(() => {
+                step.style.opacity = '1';
+                step.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    }
+    
+    // Initial animation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate AI assistant message
+        const aiMessage = document.querySelector('.ai-message');
+        setTimeout(() => {
+            aiMessage.style.opacity = '1';
+            aiMessage.style.transform = 'translateY(0)';
+        }, 500);
+        
+        // Prepare steps for animation
+        document.querySelectorAll('.step').forEach(step => {
+            step.style.opacity = '0';
+            step.style.transform = 'translateY(20px)';
+            step.style.transition = 'all 0.5s ease';
+        });
+        
+        // Animate steps when in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateSteps();
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        observer.observe(document.querySelector('.process-steps'));
+    });
+</script>
+{% endblock %}

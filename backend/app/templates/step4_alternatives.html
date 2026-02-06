@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aria CV - Alternatives de Carrière</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- VOTRE CSS PERSONNALISÉ -->
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <style>
+        /* Styles supplémentaires uniquement pour cette page */
+        .suggestion-content {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+        
+        /* STYLE DES ALTERNATIVES - IMPORTANT */
+        .suggestion-content ul {
+            padding-left: 20px;
+            list-style-type: none;
+        }
+        
+        .suggestion-content li {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background-color: #f8f9fa; /* Fond clair */
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-color);
+            color: #333333 !important; /* ← COULEUR DU TEXTE EN NOIR */
+            font-size: 1rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .suggestion-content li:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        /* Mots-clés en couleur */
+        .suggestion-content li strong {
+            color: var(--primary-color) !important;
+        }
+        
+        .suggestion-content li em {
+            color: var(--accent-color) !important;
+            font-style: italic;
+        }
+        
+        /* Boutons */
+        .btn-restart {
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+        
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+        
+        /* Ajustements pour intégrer avec votre CSS */
+        body {
+            background-color: var(--background-light);
+        }
+        
+        .card {
+            background-color: var(--card-background);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .text-info {
+            color: var(--primary-color) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barre de navigation -->
+    <nav class="app-header">
+        <div class="logo-container">
+            <i class="fas fa-robot logo-icon"></i>
+            <h1 class="app-title">Aria CV : Coach Carrière</h1>
+        </div>
+        <div class="step-indicator">
+            <span class="step-item done">1. CV</span>
+            <span class="step-item done">2. Diagnostic</span>
+            <span class="step-item active">3. Alternatives</span>
+            <span class="step-item">4. Éthique</span>
+            <span class="step-item">5. Final</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- En-tête -->
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">
+                <i class="fas fa-lightbulb me-2"></i>Pistes Alternatives
+            </h2>
+            <p class="lead text-muted">
+                Votre profil actuel semble différer de l'offre visée. Voici des suggestions basées sur vos compétences réelles.
+            </p>
+        </div>
+
+        <!-- Contenu des suggestions -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="text-uppercase fw-bold">Analyse de l'IA</span>
+                <span class="badge bg-secondary">Conseil Orientation</span>
+            </div>
+            <div class="card-body">
+                <!-- Zone d'affichage du texte généré par Mistral -->
+                <div class="suggestion-content">
+                    {{ alternatives | safe }}
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <small><i class="fas fa-info-circle me-1"></i>Ces suggestions sont générées par IA basée sur votre CV</small>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="d-flex justify-content-center gap-3 mt-5">
+            <a href="{{ url_for('step2_diagnostic') }}" class="btn btn-back">
+                <i class="fas fa-arrow-left me-2"></i>Retour au diagnostic
+            </a>
+            <a href="{{ url_for('reset_session') }}" class="btn btn-restart">
+                <i class="fas fa-undo me-2"></i>Recommencer une nouvelle analyse
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Animation sur les éléments de la liste
+        document.addEventListener('DOMContentLoaded', function() {
+            const listItems = document.querySelectorAll('.suggestion-content li');
+            listItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>✨ Votre CV Optimisé (Brouillon & Validation)</h2>
+    
+    <div class="grid-2">
+        <div class="card cv-preview">
+            <h3>Aperçu du CV reformulé</h3>
+            <pre>{{ data.optimized_cv | default('Génération en cours...') }}</pre>
+        </div>
+        
+        <div class="card card-validation">
+            {% if sugg %}
+                <h3>⚠️ Validation Éthique des Compétences</h3>
+                <p class="alert alert-warning">
+                    Pour un meilleur match, l'assistant propose d'ajouter les compétences suivantes, **qu'il n'a pas trouvées dans votre CV original** :
+                </p>
+                <div class="competences-list">
+                    {% for c in sugg %}
+                        <span class="badge">{{ c }}</span>
+                    {% endfor %}
+                </div>
+                
+                <form method="POST">
+                    <h4>Les maîtrisez-vous et acceptez-vous de les inclure ?</h4>
+                    <div class="form-group-radio">
+                        <label>
+                            <input type="radio" name="consent_radio_final" value="oui" checked>
+                            Oui, je les maîtrise et je les ajoute.
+                        </label>
+                        <label>
+                            <input type="radio" name="consent_radio_final" value="non">
+                            Non, je ne les maîtrise pas.
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        Confirmer et Finaliser le CV <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            {% else %}
+                <div class="alert alert-info">
+                    <p>Aucune compétence manquante n'a été suggérée par l'IA. Vous pouvez finaliser.</p>
+                    <form method="POST">
+                        <input type="hidden" name="consent_radio_final" value="non">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            Finaliser et Voir le Résultat (Étape 4) <i class="fas fa-check"></i>
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
