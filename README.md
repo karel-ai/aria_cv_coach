@@ -75,14 +75,26 @@ Ouvrez votre navigateur à l'adresse :
 aria-cv-coach/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py              # Point d'entrée FastAPI & Routes
-│   │   ├── logic.py             # Cerveau de l'IA (Prompts & Logique)
-│   │   ├── templates/           # Vues HTML (Jinja2)
-│   │   └── static/              # CSS & Assets
-│   ├── requirements.txt         # Dépendances Python
-│   └── Dockerfile               # Configuration image Backend
-├── docker-compose.yml           # Orchestration des conteneurs
-└── README.md                    # Documentation
+│   │   ├── static/
+│   │   │   └── style.css            # Styles CSS (Design Glassmorphism)
+│   │   ├── templates/               # Vues HTML (Jinja2)
+│   │   │   ├── base.html            # Layout principal
+│   │   │   ├── step1_upload.html    # Upload CV & Offre
+│   │   │   ├── step2_diagnostic.html # Analyse & Score
+│   │   │   ├── step3_optimize.html  # Réécriture IA
+│   │   │   ├── step4_alternatives.html # Pistes de carrière
+│   │   │   └── step5_final.html     # Chatbot & Résultats
+│   │   ├── __init__.py
+│   │   ├── export_cv.py             # Génération de documents (Stub/Impl)
+│   │   ├── logic.py                 # Cerveau de l'IA (Mistral + Prompts)
+│   │   ├── main.py                  # Contrôleur Principal (FastAPI)
+│   │   └── rag_reformulation_cv.py  # Moteur RAG (Retrieval)
+│   ├── Dockerfile                   # Configuration Image Python
+│   └── requirements.txt             # Dépendances (FastAPI, MistralAI, etc.)
+├── .env.example                     # Modèle de configuration (sans clés)
+├── .gitignore                       # Fichiers à exclure de Git
+├── docker-compose.yml               # Orchestration des conteneurs
+└── README.md                        # Documentation du projet
 
 ```
 
