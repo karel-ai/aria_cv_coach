@@ -106,10 +106,21 @@ aria-cv-coach/
 │   │   ├── export_cv.py             # Génération de documents (Stub/Impl)
 │   │   ├── logic.py                 # Cerveau de l'IA (Mistral + Prompts)
 │   │   ├── main.py                  # Contrôleur Principal (FastAPI)
-│   │   └── rag_reformulation_cv.py  # Moteur RAG (Retrieval)
+│   │   ├── rag_reformulation_cv.py  # Moteur RAG (Retrieval)
+│   │   ├── template.pdf             # Modèle de référence pour la structure PDF
+│   │   └── template2.docx           # Modèle de référence pour la structure Word
 │   ├── Dockerfile                   # Configuration Image Python
 │   └── requirements.txt             # Dépendances (FastAPI, MistralAI, etc.)
-|
+├── frontend/                        # Application Client (Next.js)
+│   ├── app/
+│   │    ├── layout.tsx              # Structure racine (Navigation & SEO)
+│   │    └── page.tsx                # Page d'accueil & Routage
+│   ├── src/styles/
+│   │    └── global.css              # Styles globaux & Directives Tailwind
+│   ├── Dockerfile                   # Configuration Image Node.js
+│   ├── package.json                 # Dépendances Frontend (React, Next, etc.)
+│   ├── postcss.config.js            # Configuration du post-processeur CSS
+│   └── tailwind.config.ts           # Configuration du thème & design system
 ├── .env                             # Modèle de configuration (sans clés)
 ├── .gitignore                       # Fichiers à exclure de Git
 ├── docker-compose.yml               # Orchestration des conteneurs
