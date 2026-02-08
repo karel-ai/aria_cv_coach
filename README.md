@@ -1,4 +1,4 @@
-# 🤖 Aria CV Coach
+#  Aria CV Coach
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688?style=for-the-badge&logo=fastapi&logoColor=white)
@@ -10,17 +10,17 @@ Il utilise une architecture **RAG (Retrieval-Augmented Generation)** et le modè
 
 ---
 
-## 🚀 Fonctionnalités Clés
+##  Fonctionnalités Clés
 
-1.  **📥 Analyse Contextuelle** : Upload de CV (PDF/DOCX) et analyse sémantique de l'offre d'emploi (URL ou texte).
-2.  **📊 Diagnostic IA** : Calcul d'un score de compatibilité (/100), identification des *Hard Skills* et *Soft Skills* manquants.
-3.  **✨ Réécriture Intelligente** : Génération d'une version optimisée du CV, reformulée pour correspondre au ton et aux exigences du poste.
-4.  **💬 Chatbot de Finition** : Interface de chat intégrée pour demander des modifications manuelles à l'IA (ex: "Rends le résumé plus punchy", "Ajoute mon niveau d'anglais").
-5.  **🐳 100% Conteneurisé** : Déploiement facile et isolement total grâce à Docker.
+1.  ** Analyse Contextuelle** : Upload de CV (PDF/DOCX) et analyse sémantique de l'offre d'emploi (URL ou texte).
+2.  ** Diagnostic IA** : Calcul d'un score de compatibilité (/100), identification des *Hard Skills* et *Soft Skills* manquants.
+3.  ** Réécriture Intelligente** : Génération d'une version optimisée du CV, reformulée pour correspondre au ton et aux exigences du poste.
+4.  ** Chatbot de Finition** : Interface de chat intégrée pour demander des modifications manuelles à l'IA (ex: "Rends le résumé plus punchy", "Ajoute mon niveau d'anglais").
+5.  ** 100% Conteneurisé** : Déploiement facile et isolement total grâce à Docker.
 
 ---
 
-## 🛠️ Stack Technique
+##  Stack Technique
 
 * **Backend :** Python, FastAPI, Uvicorn.
 * **AI Engine :** Mistral AI API (`mistral-small-latest` / `mistral-large-latest`).
@@ -30,7 +30,7 @@ Il utilise une architecture **RAG (Retrieval-Augmented Generation)** et le modè
 
 ---
 
-## 📦 Installation & Démarrage
+##  Installation & Démarrage
 
 ### Pré-requis
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) installé et lancé.
@@ -53,7 +53,7 @@ Voici une proposition de réécriture optimisée pour ton README :
 
 L'application nécessite une clé API Mistral pour fonctionner.
 
-1. **Créez le fichier `.env**` à la racine du projet en copiant le modèle (ou en le créant manuellement) :
+1. **Créez le fichier `.env`** à la racine du projet en copiant le modèle (ou en le créant manuellement) :
 ```bash
 cp .env.example .env  # Si vous avez un fichier exemple, sinon : touch .env
 
