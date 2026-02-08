@@ -12,11 +12,11 @@ Il utilise une architecture **RAG (Retrieval-Augmented Generation)** et le modè
 
 ##  Fonctionnalités Clés
 
-1.  ** Analyse Contextuelle** : Upload de CV (PDF/DOCX) et analyse sémantique de l'offre d'emploi (URL ou texte).
-2.  ** Diagnostic IA** : Calcul d'un score de compatibilité (/100), identification des *Hard Skills* et *Soft Skills* manquants.
-3.  ** Réécriture Intelligente** : Génération d'une version optimisée du CV, reformulée pour correspondre au ton et aux exigences du poste.
-4.  ** Chatbot de Finition** : Interface de chat intégrée pour demander des modifications manuelles à l'IA (ex: "Rends le résumé plus punchy", "Ajoute mon niveau d'anglais").
-5.  ** 100% Conteneurisé** : Déploiement facile et isolement total grâce à Docker.
+1.  **Analyse Contextuelle** : Upload de CV (PDF/DOCX) et analyse sémantique de l'offre d'emploi (URL ou texte).
+2.  **Diagnostic IA** : Calcul d'un score de compatibilité (/100), identification des *Hard Skills* et *Soft Skills* manquants.
+3.  **Réécriture Intelligente** : Génération d'une version optimisée du CV, reformulée pour correspondre au ton et aux exigences du poste.
+4.  **Chatbot de Finition** : Interface de chat intégrée pour demander des modifications manuelles à l'IA (ex: "Rends le résumé plus punchy", "Ajoute mon niveau d'anglais").
+5.  **100% Conteneurisé** : Déploiement facile et isolement total grâce à Docker.
 
 ---
 
@@ -43,11 +43,6 @@ cd aria-cv-coach
 
 ```
 
-Ton README est déjà très propre et bien structuré ! Pour l'étape 2, l'idée est de la rendre plus visuelle et sécurisée, tout en guidant l'utilisateur sur la provenance de la clé.
-
-Voici une proposition de réécriture optimisée pour ton README :
-
----
 
 ### 2. Configuration des variables d'environnement
 
@@ -88,11 +83,11 @@ docker-compose up --build
 ### 4. Accéder à l'application
 
 Ouvrez votre navigateur à l'adresse :
-👉 **http://localhost:8000**
+**http://localhost:8000**
 
 ---
 
-## 📂 Structure du Projet
+## Structure du Projet
 
 ```text
 aria-cv-coach/
@@ -114,6 +109,7 @@ aria-cv-coach/
 │   │   └── rag_reformulation_cv.py  # Moteur RAG (Retrieval)
 │   ├── Dockerfile                   # Configuration Image Python
 │   └── requirements.txt             # Dépendances (FastAPI, MistralAI, etc.)
+|
 ├── .env                             # Modèle de configuration (sans clés)
 ├── .gitignore                       # Fichiers à exclure de Git
 ├── docker-compose.yml               # Orchestration des conteneurs
@@ -123,7 +119,7 @@ aria-cv-coach/
 
 ---
 
-## 🔮 Améliorations Futures
+## Améliorations Futures
 
 * [ ] Génération de fichiers PDF finaux avec mise en page moderne (`reportlab`).
 * [ ] Historique des CVs optimisés (Base de données SQLite/Postgres).
@@ -131,7 +127,7 @@ aria-cv-coach/
 
 ---
 
-## 👤 Auteur
+## Auteurs
 
 **Karel Elong & Hélène Capon** - *AI & Data Science Students @ Aivancity*
 
