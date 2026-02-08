@@ -148,7 +148,3 @@ aria-cv-coach/
 ---
 
 *Projet réalisé dans le cadre d'un cours de conception d'agent IA.*
-
-```
-
-```
