@@ -43,15 +43,38 @@ cd aria-cv-coach
 
 ```
 
-### 2. Configurer les variables d'environnement
+Ton README est déjà très propre et bien structuré ! Pour l'étape 2, l'idée est de la rendre plus visuelle et sécurisée, tout en guidant l'utilisateur sur la provenance de la clé.
 
-Créez un fichier `.env` dans le dossier `backend/` :
+Voici une proposition de réécriture optimisée pour ton README :
 
+---
+
+### 2. Configuration des variables d'environnement
+
+L'application nécessite une clé API Mistral pour fonctionner.
+
+1. **Créez le fichier `.env**` à la racine du projet en copiant le modèle (ou en le créant manuellement) :
 ```bash
-# Dans backend/.env
+cp .env.example .env  # Si vous avez un fichier exemple, sinon : touch .env
+
+```
+
+
+2. **Ajoutez votre clé API** dans le fichier `.env` :
+```env
+# aria-cv-coach/.env
 MISTRAL_API_KEY=votre_cle_api_ici_xyz
 
 ```
+
+
+
+> [!IMPORTANT]
+> Ne partagez jamais votre fichier `.env`. Il est déjà listé dans le `.gitignore` pour éviter toute publication accidentelle sur GitHub.
+> Vous pouvez obtenir une clé gratuite sur la [Console Mistral AI](https://console.mistral.ai/).
+
+---
+
 
 ### 3. Lancer l'application avec Docker
 
@@ -91,7 +114,7 @@ aria-cv-coach/
 │   │   └── rag_reformulation_cv.py  # Moteur RAG (Retrieval)
 │   ├── Dockerfile                   # Configuration Image Python
 │   └── requirements.txt             # Dépendances (FastAPI, MistralAI, etc.)
-├── .env.example                     # Modèle de configuration (sans clés)
+├── .env                             # Modèle de configuration (sans clés)
 ├── .gitignore                       # Fichiers à exclure de Git
 ├── docker-compose.yml               # Orchestration des conteneurs
 └── README.md                        # Documentation du projet
@@ -110,7 +133,7 @@ aria-cv-coach/
 
 ## 👤 Auteur
 
-**Karel Elong & Hélène Capon** - *AI & Data Science Student @ Aivancity*
+**Karel Elong & Hélène Capon** - *AI & Data Science Students @ Aivancity*
 
 * [LinkedIn](https://www.linkedin.com/in/karel-elong)
 * [GitHub](https://github.com/karel-ai)
